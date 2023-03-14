@@ -27,6 +27,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
+	void HandRGrip(float Value);
+	void HandLGrip(float Value);
+
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
@@ -39,5 +42,16 @@ private:
 	class UMotionControllerComponent* MCR;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
-	class UMotionControllerComponent* MCL;
+	UMotionControllerComponent* MCL;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class USkeletalMeshComponent* HandR;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	USkeletalMeshComponent* HandL;
+
+public:
+	FORCEINLINE USkeletalMeshComponent* GetHandR() const { return HandR; }
+	FORCEINLINE USkeletalMeshComponent* GetHandL() const { return HandL; }
+
 };

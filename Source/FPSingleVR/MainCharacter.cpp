@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
+#include "MainAnim.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -27,8 +28,14 @@ AMainCharacter::AMainCharacter()
 	MCR->SetTrackingMotionSource(FName("Right"));
 	MCL->SetTrackingMotionSource(FName("Left"));
 
-	MCR->bDisplayDeviceModel = true;
-	MCL->bDisplayDeviceModel = true;
+	//MCR->bDisplayDeviceModel = true;
+	//MCL->bDisplayDeviceModel = true;
+
+	HandR = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("HandR"));
+	HandL = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("HandL"));
+	
+	HandR->SetupAttachment(MCR);
+	HandL->SetupAttachment(MCL);
 
 }
 
@@ -52,6 +59,47 @@ void AMainCharacter::Tick(float DeltaTime)
 void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis(TEXT("HandRGrip"), this, &AMainCharacter::HandRGrip);
+	PlayerInputComponent->BindAxis(TEXT("HandLGrip"), this, &AMainCharacter::HandLGrip);
+
+}
+
+void AMainCharacter::HandRGrip(float Value)
+{
+	UMainAnim* MainAnim = Cast<UMainAnim>(HandR->GetAnimInstance());;
+
+	if (Value != 0)
+		//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("11111"));
+
+	if (MainAnim == nullptr)
+	{
+		MainAnim = Cast<UMainAnim>(HandR->GetAnimInstance());
+	}
+	
+	if (MainAnim)
+	{
+		MainAnim->GripValue = Value;
+	}
+
+}
+
+void AMainCharacter::HandLGrip(float Value)
+{
+	UMainAnim* MainAnim = Cast<UMainAnim>(HandL->GetAnimInstance());;
+
+	if (Value != 0)
+		//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("22222"));
+
+	if (MainAnim == nullptr)
+	{
+		MainAnim = Cast<UMainAnim>(HandL->GetAnimInstance());
+	}
+
+	if (MainAnim)
+	{
+		MainAnim->GripValue = Value;
+	}
 
 }
 
