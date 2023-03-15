@@ -30,6 +30,13 @@ protected:
 	void HandRGrip(float Value);
 	void HandLGrip(float Value);
 
+	void GrabRight();
+	void ReleaseRight();
+
+	void GrabLeft();
+	void ReleaseLeft();
+
+	AActor* FindNearestWeapon(class USkeletalMeshComponent* Hand);
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
@@ -45,13 +52,12 @@ private:
 	UMotionControllerComponent* MCL;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
-	class USkeletalMeshComponent* HandR;
+	USkeletalMeshComponent* HandR;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USkeletalMeshComponent* HandL;
 
-public:
-	FORCEINLINE USkeletalMeshComponent* GetHandR() const { return HandR; }
-	FORCEINLINE USkeletalMeshComponent* GetHandL() const { return HandL; }
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	class AWeaponBase* CurrentWeapon;
 
 };

@@ -6,6 +6,8 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
 #include "MainAnim.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "WeaponBase.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -63,6 +65,12 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis(TEXT("HandRGrip"), this, &AMainCharacter::HandRGrip);
 	PlayerInputComponent->BindAxis(TEXT("HandLGrip"), this, &AMainCharacter::HandLGrip);
 
+	PlayerInputComponent->BindAction(TEXT("GrabRight"), EInputEvent::IE_Pressed, this, &AMainCharacter::GrabRight);
+	PlayerInputComponent->BindAction(TEXT("GrabRight"), EInputEvent::IE_Released, this, &AMainCharacter::ReleaseRight);
+	
+	PlayerInputComponent->BindAction(TEXT("GrabLeft"), EInputEvent::IE_Pressed, this, &AMainCharacter::GrabLeft);
+	PlayerInputComponent->BindAction(TEXT("GrabLeft"), EInputEvent::IE_Released, this, &AMainCharacter::ReleaseLeft);
+
 }
 
 void AMainCharacter::HandRGrip(float Value)
@@ -101,5 +109,73 @@ void AMainCharacter::HandLGrip(float Value)
 		MainAnim->GripValue = Value;
 	}
 
+}
+
+void AMainCharacter::GrabRight()
+{
+	if (CurrentWeapon)
+		return;
+
+	AActor* NearestWeapon = FindNearestWeapon(HandR);
+	if (NearestWeapon)
+	{
+		CurrentWeapon = Cast<AWeaponBase>(NearestWeapon);
+		if (CurrentWeapon)
+		{
+			CurrentWeapon->SetItemState(EItemState::EIS_Equipped);
+
+			CurrentWeapon->AttachToComponent(HandR, 
+				FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+		}
+	}
+}
+
+void AMainCharacter::ReleaseRight()
+{
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		CurrentWeapon->SetItemState(EItemState::EIS_Falling);
+		CurrentWeapon = nullptr;
+	}
+}
+
+void AMainCharacter::GrabLeft()
+{
+	//AActor* NearestWepon = FindNearestWeapon(HandL);
+}
+
+void AMainCharacter::ReleaseLeft()
+{
+}
+
+AActor* AMainCharacter::FindNearestWeapon(USkeletalMeshComponent* Hand)
+{
+	TArray<AActor*> OverlappingActors;
+	Hand->GetOverlappingActors(OverlappingActors);
+
+	float NearestDist = 10'000.f;
+	AActor* NearestActor = nullptr;
+
+	for (AActor* OverlappedActor : OverlappingActors)
+	{
+		IWeaponInterface* WeaponInterface = Cast<IWeaponInterface>(OverlappedActor);
+		if (WeaponInterface == nullptr)
+			continue;
+		
+		float Dist = UKismetMathLibrary::Vector_Distance(
+			Hand->GetComponentLocation(), OverlappedActor->GetActorLocation());
+	
+		if (NearestDist > Dist)
+		{
+			NearestDist = Dist;
+			NearestActor = OverlappedActor;
+		}
+	}
+
+	if (NearestActor)
+		return NearestActor;
+	else
+		return nullptr;
 }
 
