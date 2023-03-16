@@ -3,10 +3,13 @@
 
 #include "WeaponBase.h"
 #include "Components/BoxComponent.h"
+#include "Engine/SkeletalMeshSocket.h"
+#include "Bullet.h"
 
 // Sets default values
 AWeaponBase::AWeaponBase() : 
-	ItemState(EItemState::EIS_Falling), SocketName("")
+	ItemState(EItemState::EIS_Falling), \
+	SocketName(""), BulletSocket("")
 
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -18,6 +21,11 @@ AWeaponBase::AWeaponBase() :
 	SetRootComponent(WeaponMesh);
 	CollisionBox->SetupAttachment(RootComponent);
 
+	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+
+	WeaponMesh->SetSimulatePhysics(true);
+
 }
 
 // Called when the game starts or when spawned
@@ -25,13 +33,6 @@ void AWeaponBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
-}
-
-// Called every frame
-void AWeaponBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 void AWeaponBase::SetItemCollision(EItemState State)
@@ -54,6 +55,20 @@ void AWeaponBase::SetItemCollision(EItemState State)
 
 		break;
 	}
+}
+
+void AWeaponBase::PressShoot_Implementation()
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Black, TEXT("sshotttttttttttttt"));
+	
+	const USkeletalMeshSocket* BulletSocketName = WeaponMesh->GetSocketByName(BulletSocket);
+	if (BulletSocketName)
+	{
+		FTransform BulletSocketTransform = BulletSocketName->GetSocketTransform(WeaponMesh);
+		
+		GetWorld()->SpawnActor<ABullet>(Bullet, BulletSocketTransform);
+	}
+
 }
 
 void AWeaponBase::SetItemState(EItemState NewItemState)

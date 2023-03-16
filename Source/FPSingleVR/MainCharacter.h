@@ -39,6 +39,8 @@ protected:
 	void GrabLeft();
 	void ReleaseLeft();
 
+	void PressFire();
+
 	AActor* FindNearestWeapon(class USkeletalMeshComponent* Hand);
 
 private:

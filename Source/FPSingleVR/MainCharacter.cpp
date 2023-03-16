@@ -74,6 +74,8 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction(TEXT("GrabLeft"), EInputEvent::IE_Pressed, this, &AMainCharacter::GrabLeft);
 	PlayerInputComponent->BindAction(TEXT("GrabLeft"), EInputEvent::IE_Released, this, &AMainCharacter::ReleaseLeft);
 
+	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &AMainCharacter::PressFire);
+
 }
 
 void AMainCharacter::HandRGrip(float Value)
@@ -162,6 +164,17 @@ void AMainCharacter::GrabLeft()
 
 void AMainCharacter::ReleaseLeft()
 {
+}
+
+void AMainCharacter::PressFire()
+{
+	if (CurrentWeapon == nullptr) return;
+
+	IWeaponInterface* Interobj = Cast<IWeaponInterface>(CurrentWeapon);
+	if (Interobj)
+	{
+		Interobj->Execute_PressShoot(CurrentWeapon);
+	}
 }
 
 AActor* AMainCharacter::FindNearestWeapon(USkeletalMeshComponent* Hand)
