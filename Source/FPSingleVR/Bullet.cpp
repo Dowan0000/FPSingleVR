@@ -20,6 +20,8 @@ ABullet::ABullet()
 
 	SphereCollision = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
 	SphereCollision->SetupAttachment(BulletMesh);
+
+	InitialLifeSpan = 5.f;
 }
 
 // Called when the game starts or when spawned

@@ -8,7 +8,7 @@
 
 // Sets default values
 AWeaponBase::AWeaponBase() : 
-	ItemState(EItemState::EIS_Falling), \
+	ItemState(EItemState::EIS_Falling),
 	SocketName(""), BulletSocket("")
 
 {
