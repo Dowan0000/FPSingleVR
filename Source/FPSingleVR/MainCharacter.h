@@ -30,6 +30,9 @@ protected:
 	void HandRGrip(float Value);
 	void HandLGrip(float Value);
 
+	void UpDown(float Value);
+	void LeftRight(float Value);
+
 	void GrabRight();
 	void ReleaseRight();
 

@@ -45,7 +45,12 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	EItemState ItemState;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	FName SocketName;
+
 public:
 	void SetItemState(EItemState NewItemState);
+	
+	FORCEINLINE FName GetSocketName() const { return SocketName; }
 
 };

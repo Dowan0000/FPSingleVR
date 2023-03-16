@@ -65,6 +65,9 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis(TEXT("HandRGrip"), this, &AMainCharacter::HandRGrip);
 	PlayerInputComponent->BindAxis(TEXT("HandLGrip"), this, &AMainCharacter::HandLGrip);
 
+	PlayerInputComponent->BindAxis(TEXT("UpDown"), this, &AMainCharacter::UpDown);
+	PlayerInputComponent->BindAxis(TEXT("LeftRight"), this, &AMainCharacter::LeftRight);
+
 	PlayerInputComponent->BindAction(TEXT("GrabRight"), EInputEvent::IE_Pressed, this, &AMainCharacter::GrabRight);
 	PlayerInputComponent->BindAction(TEXT("GrabRight"), EInputEvent::IE_Released, this, &AMainCharacter::ReleaseRight);
 	
@@ -111,10 +114,19 @@ void AMainCharacter::HandLGrip(float Value)
 
 }
 
+void AMainCharacter::UpDown(float Value)
+{
+	AddMovementInput(GetActorForwardVector(), Value);
+}
+
+void AMainCharacter::LeftRight(float Value)
+{
+	AddMovementInput(GetActorRightVector(), Value);
+}
+
 void AMainCharacter::GrabRight()
 {
-	if (CurrentWeapon)
-		return;
+	if (CurrentWeapon) return;
 
 	AActor* NearestWeapon = FindNearestWeapon(HandR);
 	if (NearestWeapon)
@@ -122,10 +134,13 @@ void AMainCharacter::GrabRight()
 		CurrentWeapon = Cast<AWeaponBase>(NearestWeapon);
 		if (CurrentWeapon)
 		{
+			if (CurrentWeapon->GetSocketName() == FName("")) return;
+
 			CurrentWeapon->SetItemState(EItemState::EIS_Equipped);
 
 			CurrentWeapon->AttachToComponent(HandR, 
-				FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+				FAttachmentTransformRules::SnapToTargetNotIncludingScale,
+				CurrentWeapon->GetSocketName());
 		}
 	}
 }

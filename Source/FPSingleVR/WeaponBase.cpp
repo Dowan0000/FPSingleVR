@@ -5,7 +5,9 @@
 #include "Components/BoxComponent.h"
 
 // Sets default values
-AWeaponBase::AWeaponBase()
+AWeaponBase::AWeaponBase() : 
+	ItemState(EItemState::EIS_Falling), SocketName("")
+
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -37,11 +39,11 @@ void AWeaponBase::SetItemCollision(EItemState State)
 	switch (State)
 	{
 	case EItemState::EIS_Equipped:
+		WeaponMesh->SetSimulatePhysics(false);
+
 		WeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		
-		WeaponMesh->SetSimulatePhysics(false);
-
 		break;
 
 	case EItemState::EIS_Falling:
