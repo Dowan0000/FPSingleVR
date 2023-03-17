@@ -29,4 +29,12 @@ void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SphereCollision->OnComponentBeginOverlap.AddDynamic(this, &ABullet::HitBullet);
+
+}
+
+void ABullet::HitBullet(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//apply damage
+
 }
