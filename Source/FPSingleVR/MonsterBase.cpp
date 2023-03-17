@@ -40,6 +40,11 @@ float AMonsterBase::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 	AppliedDamage = FMath::Min(Health, AppliedDamage);
 	Health -= AppliedDamage;
 
+	if (Health <= 0)
+	{
+		//dead
+	}
+
 	return AppliedDamage;
 }
 
