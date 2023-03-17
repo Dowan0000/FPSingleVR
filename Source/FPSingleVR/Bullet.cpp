@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "MonsterBase.h"
 
 // Sets default values
 ABullet::ABullet()
@@ -35,6 +36,12 @@ void ABullet::BeginPlay()
 
 void ABullet::HitBullet(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//apply damage
+	HittedMonster = Cast<AMonsterBase>(OtherActor);
+	if (HittedMonster)
+	{
+		FDamageEvent DamageEvent;
+		HittedMonster->TakeDamage(10.f, DamageEvent, 
+			GetWorld()->GetFirstPlayerController(), this);
+	}
 
 }
