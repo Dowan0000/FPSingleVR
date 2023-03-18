@@ -118,12 +118,12 @@ void AMainCharacter::HandLGrip(float Value)
 
 void AMainCharacter::UpDown(float Value)
 {
-	AddMovementInput(GetActorForwardVector(), Value);
+	AddMovementInput(GetActorForwardVector(), Value * 0.2f);
 }
 
 void AMainCharacter::LeftRight(float Value)
 {
-	AddMovementInput(GetActorRightVector(), Value);
+	AddMovementInput(GetActorRightVector(), Value * 0.2f);
 }
 
 void AMainCharacter::GrabRight()

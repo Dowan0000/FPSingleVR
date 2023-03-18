@@ -5,8 +5,9 @@
 #include "MonsterAnim.h"
 
 // Sets default values
-AMonsterBase::AMonsterBase() : 
-	Health(100.f), MaxHealth(100.f)
+AMonsterBase::AMonsterBase() :
+	Health(100.f), MaxHealth(100.f),
+	bIsDead(false)
 
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -26,6 +27,10 @@ void AMonsterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (!bIsDead)
+	{
+		SetActorLocation(GetActorLocation() + GetActorForwardVector() * DeltaTime * 50.f);
+	}	
 }
 
 // Called to bind functionality to input
@@ -49,9 +54,19 @@ float AMonsterBase::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 		if (MonsterAnim)
 		{
 			MonsterAnim->SetbIsDead(true);
+			bIsDead = true;
+
+			GetWorldTimerManager().SetTimer(DestroyTimer, this,
+				&AMonsterBase::DestroyMonster, 2.f);
 		}
+
 	}
 
 	return AppliedDamage;
+}
+
+void AMonsterBase::DestroyMonster()
+{
+	Destroy();
 }
 
