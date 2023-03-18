@@ -2,6 +2,7 @@
 
 
 #include "MonsterBase.h"
+#include "MonsterAnim.h"
 
 // Sets default values
 AMonsterBase::AMonsterBase() : 
@@ -40,9 +41,15 @@ float AMonsterBase::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 	AppliedDamage = FMath::Min(Health, AppliedDamage);
 	Health -= AppliedDamage;
 
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("%f"), Health));
+
 	if (Health <= 0)
 	{
-		//dead
+		MonsterAnim = Cast<UMonsterAnim>(GetMesh()->GetAnimInstance());
+		if (MonsterAnim)
+		{
+			MonsterAnim->SetbIsDead(true);
+		}
 	}
 
 	return AppliedDamage;
