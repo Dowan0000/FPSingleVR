@@ -31,8 +31,11 @@ public:
 protected:
 	void DestroyMonster();
 
+	UFUNCTION(BlueprintNativeEvent)
+	void UpdateMonsterCount();
+
 private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	float Health;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stat", meta = (AllowPrivateAccess = "true"))
@@ -45,4 +48,11 @@ private:
 	bool bIsDead;
 
 	FTimerHandle DestroyTimer;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Anim", meta = (AllowPrivateAccess = "true"))
+	class AMainCharacter* Character;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Anim", meta = (AllowPrivateAccess = "true"))
+	int MonsterGold;
+
 };

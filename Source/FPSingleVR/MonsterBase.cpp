@@ -3,11 +3,12 @@
 
 #include "MonsterBase.h"
 #include "MonsterAnim.h"
+#include "MainCharacter.h"
 
 // Sets default values
 AMonsterBase::AMonsterBase() :
 	Health(100.f), MaxHealth(100.f),
-	bIsDead(false)
+	bIsDead(false), MonsterGold(10)
 
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -56,8 +57,12 @@ float AMonsterBase::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 			MonsterAnim->SetbIsDead(true);
 			bIsDead = true;
 
+			Character = Cast<AMainCharacter>(GetWorld()->GetFirstPlayerController()->GetCharacter());
+			if (Character)
+				Character->GetGold(MonsterGold);
+
 			GetWorldTimerManager().SetTimer(DestroyTimer, this,
-				&AMonsterBase::DestroyMonster, 2.f);
+				&AMonsterBase::DestroyMonster, 1.f);
 		}
 
 	}
@@ -67,6 +72,12 @@ float AMonsterBase::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 
 void AMonsterBase::DestroyMonster()
 {
+	UpdateMonsterCount();
+
 	Destroy();
+}
+
+void AMonsterBase::UpdateMonsterCount_Implementation()
+{
 }
 

@@ -10,7 +10,8 @@
 #include "WeaponBase.h"
 
 // Sets default values
-AMainCharacter::AMainCharacter()
+AMainCharacter::AMainCharacter() : 
+	CurGold(0)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -205,5 +206,15 @@ AActor* AMainCharacter::FindNearestWeapon(USkeletalMeshComponent* Hand)
 		return NearestActor;
 	else
 		return nullptr;
+}
+
+void AMainCharacter::UpdateGoldWidget_Implementation()
+{
+}
+
+void AMainCharacter::GetGold(int Gold)
+{
+	CurGold += Gold;
+	UpdateGoldWidget();
 }
 

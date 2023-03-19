@@ -43,6 +43,9 @@ protected:
 
 	AActor* FindNearestWeapon(class USkeletalMeshComponent* Hand);
 
+	UFUNCTION(BlueprintNativeEvent)
+	void UpdateGoldWidget();
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class USceneComponent* CameraRoot;
@@ -64,5 +67,11 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	class AWeaponBase* CurrentWeapon;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	int32 CurGold;
+
+public:
+	void GetGold(int Gold);
 
 };
