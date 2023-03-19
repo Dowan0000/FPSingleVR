@@ -49,7 +49,7 @@ float AMonsterBase::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("%f"), Health));
 
-	if (Health <= 0)
+	if (!bIsDead && Health <= 0)
 	{
 		MonsterAnim = Cast<UMonsterAnim>(GetMesh()->GetAnimInstance());
 		if (MonsterAnim)
@@ -60,6 +60,8 @@ float AMonsterBase::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 			Character = Cast<AMainCharacter>(GetWorld()->GetFirstPlayerController()->GetCharacter());
 			if (Character)
 				Character->GetGold(MonsterGold);
+
+			UpdateMonsterCount();
 
 			GetWorldTimerManager().SetTimer(DestroyTimer, this,
 				&AMonsterBase::DestroyMonster, 1.f);
@@ -72,8 +74,6 @@ float AMonsterBase::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 
 void AMonsterBase::DestroyMonster()
 {
-	UpdateMonsterCount();
-
 	Destroy();
 }
 
