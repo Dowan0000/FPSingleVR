@@ -35,6 +35,9 @@ protected:
 	void PressShoot();
 	virtual void PressShoot_Implementation() override;
 
+	UFUNCTION(BlueprintCallable)
+	void WeaponLevelUp();
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class USkeletalMeshComponent* WeaponMesh;
@@ -49,10 +52,16 @@ private:
 	FName SocketName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<class ABullet> Bullet;
+	TSubclassOf<class ABullet> SpawnBullet;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	FName BulletSocket;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	ABullet* Bullet;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	int WeaponLevel;
 
 public:
 	void SetItemState(EItemState NewItemState);

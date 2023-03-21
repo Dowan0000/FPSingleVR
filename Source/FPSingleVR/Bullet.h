@@ -36,4 +36,10 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Hit", meta = (AllowPrivateAccess = "true"))
 	class AMonsterBase* HittedMonster;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Hit", meta = (AllowPrivateAccess = "true"))
+	float Damage;
+
+public:
+	void SetDamage(float NewDamage) { Damage = NewDamage; }
+
 };

@@ -9,7 +9,8 @@
 // Sets default values
 AWeaponBase::AWeaponBase() : 
 	ItemState(EItemState::EIS_Falling),
-	SocketName(""), BulletSocket("")
+	SocketName(""), BulletSocket(""),
+	WeaponLevel(1)
 
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -66,9 +67,18 @@ void AWeaponBase::PressShoot_Implementation()
 	{
 		FTransform BulletSocketTransform = BulletSocketName->GetSocketTransform(WeaponMesh);
 		
-		GetWorld()->SpawnActor<ABullet>(Bullet, BulletSocketTransform);
+		Bullet = GetWorld()->SpawnActor<ABullet>(SpawnBullet, BulletSocketTransform);
+		if (Bullet)
+		{
+			Bullet->SetDamage(10.f);
+		}
 	}
 
+}
+
+void AWeaponBase::WeaponLevelUp()
+{
+	WeaponLevel++;
 }
 
 void AWeaponBase::SetItemState(EItemState NewItemState)

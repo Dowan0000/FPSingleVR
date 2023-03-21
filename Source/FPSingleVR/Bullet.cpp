@@ -7,7 +7,9 @@
 #include "MonsterBase.h"
 
 // Sets default values
-ABullet::ABullet()
+ABullet::ABullet() : 
+	Damage(10.f)
+
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -40,7 +42,7 @@ void ABullet::HitBullet(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 	if (HittedMonster)
 	{
 		FDamageEvent DamageEvent;
-		HittedMonster->TakeDamage(10.f, DamageEvent, 
+		HittedMonster->TakeDamage(Damage, DamageEvent, 
 			GetWorld()->GetFirstPlayerController(), this);
 	}
 

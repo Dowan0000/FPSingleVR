@@ -50,6 +50,7 @@ void AStoreBase::BoxEndOverlap_Implementation(UPrimitiveComponent* OverlappedCom
 	if (Character)
 	{
 		Character->SetInVisibleInteractionMesh();
+		Character = nullptr;
 	}
 }
 
