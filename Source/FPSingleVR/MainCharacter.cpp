@@ -8,6 +8,7 @@
 #include "MainAnim.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "WeaponBase.h"
+#include "Components/WidgetInteractionComponent.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter() : 
@@ -39,6 +40,13 @@ AMainCharacter::AMainCharacter() :
 	
 	HandR->SetupAttachment(MCR);
 	HandL->SetupAttachment(MCL);
+
+	WidgetInteraction = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("WidgetInteraction"));
+	WidgetInteraction->SetupAttachment(MCR);
+
+	InteractionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("InteractionMesh"));
+	InteractionMesh->SetupAttachment(MCR);
+	InteractionMesh->SetGenerateOverlapEvents(false);
 
 }
 
@@ -76,6 +84,9 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction(TEXT("GrabLeft"), EInputEvent::IE_Released, this, &AMainCharacter::ReleaseLeft);
 
 	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &AMainCharacter::PressFire);
+
+	PlayerInputComponent->BindAction(TEXT("PressA"), EInputEvent::IE_Pressed, this, &AMainCharacter::PressA);
+	PlayerInputComponent->BindAction(TEXT("PressA"), EInputEvent::IE_Released, this, &AMainCharacter::ReleaseA);
 
 }
 
@@ -206,6 +217,16 @@ AActor* AMainCharacter::FindNearestWeapon(USkeletalMeshComponent* Hand)
 		return NearestActor;
 	else
 		return nullptr;
+}
+
+void AMainCharacter::PressA()
+{
+	WidgetInteraction->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void AMainCharacter::ReleaseA()
+{
+	WidgetInteraction->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
 void AMainCharacter::UpdateGoldWidget_Implementation()

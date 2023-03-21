@@ -46,6 +46,10 @@ protected:
 	UFUNCTION(BlueprintNativeEvent)
 	void UpdateGoldWidget();
 
+	void PressA();
+
+	void ReleaseA();
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class USceneComponent* CameraRoot;
@@ -70,6 +74,13 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	int32 CurGold;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UWidgetInteractionComponent* WidgetInteraction;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* InteractionMesh;
+
 
 public:
 	void GetGold(int Gold);
