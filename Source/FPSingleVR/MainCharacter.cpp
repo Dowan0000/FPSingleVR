@@ -43,12 +43,13 @@ AMainCharacter::AMainCharacter() :
 
 	WidgetInteraction = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("WidgetInteraction"));
 	WidgetInteraction->SetupAttachment(MCR);
+	WidgetInteraction->InteractionDistance = 0.f;
 
 	InteractionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("InteractionMesh"));
 	InteractionMesh->SetupAttachment(MCR);
 	InteractionMesh->SetGenerateOverlapEvents(false);
 	InteractionMesh->SetVisibility(false);
-
+	InteractionMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 // Called when the game starts or when spawned
@@ -242,11 +243,13 @@ void AMainCharacter::GetGold(int Gold)
 
 void AMainCharacter::SetVisibleInteractionMesh()
 {
+	WidgetInteraction->InteractionDistance = 500.f;
 	InteractionMesh->SetVisibility(true);
 }
 
 void AMainCharacter::SetInVisibleInteractionMesh()
 {
+	WidgetInteraction->InteractionDistance = 0.f;
 	InteractionMesh->SetVisibility(false);
 }
 

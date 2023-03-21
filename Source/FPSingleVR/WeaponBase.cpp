@@ -98,7 +98,8 @@ void AWeaponBase::SetDamage()
 
 	case EWeaponType::Pistol:
 		Damage = ST_Weapon->PistolDamage;
-
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Black, TEXT("settttttttt"));
+		
 		break;
 
 	case EWeaponType::Rifle:

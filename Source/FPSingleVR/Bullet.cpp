@@ -43,6 +43,8 @@ void ABullet::HitBullet(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 		FDamageEvent DamageEvent;
 		HittedMonster->TakeDamage(CurWeapon->GetDamage(), DamageEvent,
 			GetWorld()->GetFirstPlayerController(), this);
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("%f"), CurWeapon->GetDamage()));
 	}
 
 }
