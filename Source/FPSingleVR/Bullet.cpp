@@ -5,11 +5,10 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "MonsterBase.h"
+#include "WeaponBase.h"
 
 // Sets default values
-ABullet::ABullet() : 
-	Damage(10.f)
-
+ABullet::ABullet()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -39,11 +38,16 @@ void ABullet::BeginPlay()
 void ABullet::HitBullet(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	HittedMonster = Cast<AMonsterBase>(OtherActor);
-	if (HittedMonster)
+	if (HittedMonster && CurWeapon)
 	{
 		FDamageEvent DamageEvent;
-		HittedMonster->TakeDamage(Damage, DamageEvent, 
+		HittedMonster->TakeDamage(CurWeapon->GetDamage(), DamageEvent,
 			GetWorld()->GetFirstPlayerController(), this);
 	}
 
+}
+
+void ABullet::SetWeapon(AWeaponBase* NewWeapon)
+{
+	CurWeapon = NewWeapon;
 }

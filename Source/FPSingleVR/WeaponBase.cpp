@@ -5,12 +5,14 @@
 #include "Components/BoxComponent.h"
 #include "Engine/SkeletalMeshSocket.h"
 #include "Bullet.h"
+#include "Engine/DataTable.h"
 
 // Sets default values
 AWeaponBase::AWeaponBase() : 
 	ItemState(EItemState::EIS_Falling),
 	SocketName(""), BulletSocket(""),
-	WeaponLevel(1)
+	WeaponLevel(1), Damage(10.f),
+	WeaponType(EWeaponType::None)
 
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -34,6 +36,7 @@ void AWeaponBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SetDamage();
 }
 
 void AWeaponBase::SetItemCollision(EItemState State)
@@ -70,7 +73,7 @@ void AWeaponBase::PressShoot_Implementation()
 		Bullet = GetWorld()->SpawnActor<ABullet>(SpawnBullet, BulletSocketTransform);
 		if (Bullet)
 		{
-			Bullet->SetDamage(10.f);
+			Bullet->SetWeapon(this);
 		}
 	}
 
@@ -79,6 +82,32 @@ void AWeaponBase::PressShoot_Implementation()
 void AWeaponBase::WeaponLevelUp()
 {
 	WeaponLevel++;
+	SetDamage();
+}
+
+void AWeaponBase::SetDamage()
+{
+	FName RowName = FName(*FString::FromInt(WeaponLevel));
+	ST_Weapon = WeaponData->FindRow<FWeaponStruct>(RowName, FString(""));
+
+	switch (WeaponType)
+	{
+	case EWeaponType::None:
+		
+		break;
+
+	case EWeaponType::Pistol:
+		Damage = ST_Weapon->PistolDamage;
+
+		break;
+
+	case EWeaponType::Rifle:
+		Damage = ST_Weapon->RifleDamage;
+
+		break;
+
+	}
+
 }
 
 void AWeaponBase::SetItemState(EItemState NewItemState)

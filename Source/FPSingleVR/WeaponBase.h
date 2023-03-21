@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "WeaponInterface.h"
+#include "WeaponType.h"
+#include "ST_Weapon.h"
 #include "WeaponBase.generated.h"
 
 UENUM(BlueprintType)
@@ -38,6 +40,8 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void WeaponLevelUp();
 
+	void SetDamage();
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class USkeletalMeshComponent* WeaponMesh;
@@ -63,9 +67,21 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	int WeaponLevel;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	float Damage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	EWeaponType WeaponType;
+
+	FWeaponStruct* ST_Weapon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	class UDataTable* WeaponData;
+
 public:
 	void SetItemState(EItemState NewItemState);
 	
 	FORCEINLINE FName GetSocketName() const { return SocketName; }
 
+	FORCEINLINE float GetDamage() const { return Damage; }
 };
