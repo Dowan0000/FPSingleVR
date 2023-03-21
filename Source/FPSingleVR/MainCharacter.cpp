@@ -47,6 +47,7 @@ AMainCharacter::AMainCharacter() :
 	InteractionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("InteractionMesh"));
 	InteractionMesh->SetupAttachment(MCR);
 	InteractionMesh->SetGenerateOverlapEvents(false);
+	InteractionMesh->SetVisibility(false);
 
 }
 
@@ -237,5 +238,15 @@ void AMainCharacter::GetGold(int Gold)
 {
 	CurGold += Gold;
 	UpdateGoldWidget();
+}
+
+void AMainCharacter::SetVisibleInteractionMesh()
+{
+	InteractionMesh->SetVisibility(true);
+}
+
+void AMainCharacter::SetInVisibleInteractionMesh()
+{
+	InteractionMesh->SetVisibility(false);
 }
 

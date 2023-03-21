@@ -85,4 +85,8 @@ private:
 public:
 	void GetGold(int Gold);
 
+	void SetVisibleInteractionMesh();
+
+	void SetInVisibleInteractionMesh();
+
 };
