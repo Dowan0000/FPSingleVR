@@ -8,7 +8,7 @@
 // Sets default values
 AMonsterBase::AMonsterBase() :
 	Health(100.f), MaxHealth(100.f),
-	bIsDead(false), MonsterGold(50)
+	bIsDead(false), MonsterGold(200)
 
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
