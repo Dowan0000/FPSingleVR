@@ -81,5 +81,5 @@ void AMachineBase::SpawnBullet()
 			SpawnedBullet->SetTargetEnemy(TargetMonster);
 		}
 	}
-
+	
 }
