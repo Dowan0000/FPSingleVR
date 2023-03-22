@@ -55,4 +55,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Anim", meta = (AllowPrivateAccess = "true"))
 	int MonsterGold;
 
+public:
+	FORCEINLINE float GetHealth() const { return Health; }
+
 };

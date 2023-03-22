@@ -53,3 +53,8 @@ void ABullet::SetWeapon(AWeaponBase* NewWeapon)
 {
 	CurWeapon = NewWeapon;
 }
+
+//void ABullet::SetTargetEnemy(AMonsterBase* NewTarget)
+//{
+//	TargetEnemy = NewTarget;
+//}
