@@ -10,7 +10,7 @@
 
 // Sets default values
 AMachineBase::AMachineBase() : 
-	Damage(10.f)
+	Damage(10.f), AttackSpeed(3.f)
 
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -29,7 +29,7 @@ void AMachineBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	GetWorldTimerManager().SetTimer(BulletTimer, this, &AMachineBase::SpawnBullet, 3.f, true, 1.f);
+	GetWorldTimerManager().SetTimer(BulletTimer, this, &AMachineBase::SpawnBullet, AttackSpeed, true, 1.f);
 
 }
 

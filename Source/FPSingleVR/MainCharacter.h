@@ -50,6 +50,11 @@ protected:
 
 	void ReleaseA();
 
+	UFUNCTION(BlueprintCallable)
+	void MachineLevelUp();
+
+	void SetMachineDamage();
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class USceneComponent* CameraRoot;
@@ -81,6 +86,8 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* InteractionMesh;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	int MachineLevel;
 
 public:
 	void GetGold(int Gold);

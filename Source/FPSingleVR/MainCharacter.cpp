@@ -12,7 +12,8 @@
 
 // Sets default values
 AMainCharacter::AMainCharacter() : 
-	CurGold(0)
+	CurGold(0), MachineLevel(1)
+
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -231,6 +232,17 @@ void AMainCharacter::PressA()
 void AMainCharacter::ReleaseA()
 {
 	WidgetInteraction->ReleasePointerKey(EKeys::LeftMouseButton);
+}
+
+void AMainCharacter::MachineLevelUp()
+{
+	MachineLevel++;
+	SetMachineDamage();
+}
+
+void AMainCharacter::SetMachineDamage()
+{
+	// set damage
 }
 
 void AMainCharacter::UpdateGoldWidget_Implementation()

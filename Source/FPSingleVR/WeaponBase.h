@@ -37,6 +37,7 @@ protected:
 	void PressShoot();
 	virtual void PressShoot_Implementation() override;
 
+	// 얘네도 캐릭터도 옮겨야할듯
 	UFUNCTION(BlueprintCallable)
 	void WeaponLevelUp();
 

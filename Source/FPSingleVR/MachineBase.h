@@ -44,6 +44,9 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
 	float Damage;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	float AttackSpeed;
+
 public:
 	FORCEINLINE float GetDamage() const { return Damage; }
 
