@@ -9,6 +9,8 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "WeaponBase.h"
 #include "Components/WidgetInteractionComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "MachineBase.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter() : 
@@ -60,6 +62,8 @@ void AMainCharacter::BeginPlay()
 	
 	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(EHMDTrackingOrigin::Eye);
 
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AMainCharacter::OnCapsuleBegineOverlap);
+	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &AMainCharacter::OnCapsuleEndOverlap);
 }
 
 // Called every frame
@@ -242,7 +246,21 @@ void AMainCharacter::MachineLevelUp()
 
 void AMainCharacter::SetMachineDamage()
 {
-	// set damage
+	FName RowName = FName(*FString::FromInt(MachineLevel));
+	ST_Machine = MachineData->FindRow<FMachineStruct>(RowName, FString(""));
+
+	if (Machine)
+		Machine->SetDamage(ST_Machine->Machine1Damage);
+}
+
+void AMainCharacter::OnCapsuleBegineOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Machine = Cast<AMachineBase>(OtherActor);
+}
+
+void AMainCharacter::OnCapsuleEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	Machine = nullptr;
 }
 
 void AMainCharacter::UpdateGoldWidget_Implementation()

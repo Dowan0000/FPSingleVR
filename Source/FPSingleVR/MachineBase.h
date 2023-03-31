@@ -50,4 +50,6 @@ private:
 public:
 	FORCEINLINE float GetDamage() const { return Damage; }
 
+	void SetDamage(float NewDamage) { Damage = NewDamage; }
+
 };

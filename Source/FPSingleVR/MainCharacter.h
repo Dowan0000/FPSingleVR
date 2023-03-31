@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "ST_Machine.h"
 #include "MainCharacter.generated.h"
 
 UCLASS()
@@ -55,6 +56,12 @@ protected:
 
 	void SetMachineDamage();
 
+	UFUNCTION()
+	void OnCapsuleBegineOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnCapsuleEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class USceneComponent* CameraRoot;
@@ -86,8 +93,16 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* InteractionMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Machine", meta = (AllowPrivateAccess = "true"))
 	int MachineLevel;
+
+	FMachineStruct* ST_Machine;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Machine", meta = (AllowPrivateAccess = "true"))
+	class UDataTable* MachineData;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Machine", meta = (AllowPrivateAccess = "true"))
+	class AMachineBase* Machine;
 
 public:
 	void GetGold(int Gold);
