@@ -56,12 +56,6 @@ protected:
 
 	void SetMachineDamage();
 
-	UFUNCTION()
-	void OnCapsuleBegineOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
-	void OnCapsuleEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class USceneComponent* CameraRoot;
@@ -101,8 +95,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Machine", meta = (AllowPrivateAccess = "true"))
 	class UDataTable* MachineData;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Machine", meta = (AllowPrivateAccess = "true"))
-	class AMachineBase* Machine;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Machine", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class AMachineBase> UpgradeMachine1;
 
 public:
 	void GetGold(int Gold);

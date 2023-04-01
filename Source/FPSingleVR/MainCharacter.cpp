@@ -11,6 +11,7 @@
 #include "Components/WidgetInteractionComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "MachineBase.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter() : 
@@ -62,8 +63,6 @@ void AMainCharacter::BeginPlay()
 	
 	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(EHMDTrackingOrigin::Eye);
 
-	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AMainCharacter::OnCapsuleBegineOverlap);
-	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &AMainCharacter::OnCapsuleEndOverlap);
 }
 
 // Called every frame
@@ -246,21 +245,26 @@ void AMainCharacter::MachineLevelUp()
 
 void AMainCharacter::SetMachineDamage()
 {
+	if (UpgradeMachine1 == nullptr) return;
+
 	FName RowName = FName(*FString::FromInt(MachineLevel));
 	ST_Machine = MachineData->FindRow<FMachineStruct>(RowName, FString(""));
 
-	if (Machine)
-		Machine->SetDamage(ST_Machine->Machine1Damage);
-}
+	TArray<AActor*> UpMachines;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), UpgradeMachine1, UpMachines);
 
-void AMainCharacter::OnCapsuleBegineOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	Machine = Cast<AMachineBase>(OtherActor);
-}
+	for (AActor* UpMachine : UpMachines)
+	{
+		AMachineBase* MachineBase = Cast<AMachineBase>(UpMachine);
+		if (MachineBase)
+		{
+			// MachineBase 상속받은 BP_Machine으로 공격중인데
+			// 런타임에 부모클래스 데미지를 올려도
+			// 자식클래스 데미지는 오르지 않는건가?
+			MachineBase->SetDamage(ST_Machine->Machine1Damage);
+		}
+	}
 
-void AMainCharacter::OnCapsuleEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	Machine = nullptr;
 }
 
 void AMainCharacter::UpdateGoldWidget_Implementation()

@@ -47,6 +47,8 @@ void AMachineBullet::HitBullet(UPrimitiveComponent* OverlappedComponent, AActor*
 		HittedMonster->TakeDamage(CurMachine->GetDamage(), DamageEvent,
 			GetWorld()->GetFirstPlayerController(), this);
 
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Black, FString::Printf(TEXT("%f"), CurMachine->GetDamage()));
+
 		Destroy();
 	}
 }
